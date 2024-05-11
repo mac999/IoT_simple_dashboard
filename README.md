@@ -2,7 +2,11 @@
 IoT simple dashboard.
 
 <center>
-  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/Animation.gif" height=400/>
+  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/Animation.gif" width=600/>
+</center>
+
+<center>
+  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.png" width=600/>
 </center>
 
 # Run

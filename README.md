@@ -13,3 +13,6 @@ pip install django pandas
 git clone <this repository>
 python manage.py runserver
 ```
+
+# MIT license
+taewook, kang. 2024. IoT simple dashboard. 

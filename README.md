@@ -11,10 +11,13 @@ Run [demo web app server](https://port-0-iot-simple-dashboard-rccln2llw1pwt41.se
 
 # Run
 ```
+git clone <this repository>
 python -m venv myenv
 source myenv/bin/activate  
-pip install django pandas
-git clone <this repository>
+pip install -r requirements.txt
+```
+input your django key in settings.py
+```
 python manage.py runserver
 ```
 

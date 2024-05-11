@@ -3,7 +3,7 @@ IoT simple dashboard. Article document refer to [this blog](https://daddynkidsma
 <center>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/Animation.gif" width=600/>
 </center>
-
+</br>
 <center>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.PNG" width=600/>
 </center>

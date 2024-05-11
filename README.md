@@ -5,7 +5,7 @@ IoT simple dashboard. Article document refer to [this blog](https://daddynkidsma
 </center>
 </br>
 <center>
-  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.PNG" width=600/>
+  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.PNG" width=800/>
 </center>
 
 # Run

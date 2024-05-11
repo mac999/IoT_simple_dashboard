@@ -1,12 +1,11 @@
 # IoT_simple_dashboard
-IoT simple dashboard.
-
+IoT simple dashboard. Article document refer to [this blog](https://daddynkidsmakers.blogspot.com/2024/04/django.html).
 <center>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/Animation.gif" width=600/>
 </center>
 
 <center>
-  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.png" width=600/>
+  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.PNG" width=600/>
 </center>
 
 # Run

@@ -3,7 +3,7 @@ import os
 # DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-SECRET_KEY = '9230b26496cf3b84bee5aaadd6256bf81545da83e6d21eb3'
+SECRET_KEY = 'input your key'
 
 
 CORS_ORIGIN_ALLOW_ALL = True

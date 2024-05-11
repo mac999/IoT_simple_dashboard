@@ -9,7 +9,9 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
       <link rel="stylesheet" href="{% static 'style.css' %}">
       <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>      
+      <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>   
+      <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
    </head>
    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
       <!-- Navigation-->
@@ -352,62 +354,76 @@
                </div>
             </div>
             <!-- Example DataTables Card-->
-            <div class="card mb-3">
-               <div class="card-header">
-                  <i class="fa fa-table"></i> Sensor Data Table
-               </div>
-               <div class="card-body">
-                  <div class="table-responsive">
-                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                           <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Address</th>
-                              <th>Count</th>
-                              <th>Start date</th>
-                              <th>Value</th>
-                           </tr>
-                        </thead>
-                        <tfoot>
-                           <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Address</th>
-                              <th>Count</th>
-                              <th>Start date</th>
-                              <th>Value</th>
-                           </tr>
-                        </tfoot>
-                        <tbody>
-                           <tr>
-                              <td>Tiger Nixon</td>
-                              <td>System Architect</td>
-                              <td>Edinburgh</td>
-                              <td>61</td>
-                              <td>2011/04/25</td>
-                              <td>$320,800</td>
-                           </tr>
-                           <tr>
-                              <td>Garrett Winters</td>
-                              <td>Accountant</td>
-                              <td>Tokyo</td>
-                              <td>63</td>
-                              <td>2011/07/25</td>
-                              <td>$170,750</td>
-                           </tr>
-                           <tr>
-                              <td>Ashton Cox</td>
-                              <td>Junior Technical Author</td>
-                              <td>San Francisco</td>
-                              <td>66</td>
-                              <td>2009/01/12</td>
-                              <td>$86,000</td>
-                           </tr>
-                        </tbody>
-                     </table>
+            <div class="row">
+               <div class="col-lg-4">
+                  <div class="card mb-3">
+                     <div class="card-header">
+                           3D Map
+                     </div>
+                     <div class="card-body">
+                        <div id="cesiumContainer"></div>
+                     </div>
+                  </div>   
+               </div>            
+               <div class="col-lg-8">
+                  <div class="card mb-3">
+                     <div class="card-header">
+                        <i class="fa fa-table"></i> Sensor Data Table
+                     </div>
+                     <div class="card-body">
+                        <div class="table-responsive">
+                           <table id="sensorDataTable" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead>
+                                 <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Address</th>
+                                    <th>Count</th>
+                                    <th>Start date</th>
+                                    <th>Value</th>
+                                 </tr>
+                              </thead>
+                              <tfoot>
+                                 <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Address</th>
+                                    <th>Count</th>
+                                    <th>Start date</th>
+                                    <th>Value</th>
+                                 </tr>
+                              </tfoot>
+                              <tbody>
+                                 <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>61</td>
+                                    <td>2011/04/25</td>
+                                    <td>$320,800</td>
+                                 </tr>
+                                 <tr>
+                                    <td>Garrett Winters</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>63</td>
+                                    <td>2011/07/25</td>
+                                    <td>$170,750</td>
+                                 </tr>
+                                 <tr>
+                                    <td>Ashton Cox</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>San Francisco</td>
+                                    <td>66</td>
+                                    <td>2009/01/12</td>
+                                    <td>$86,000</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
                   </div>
-               </div>
+               </div>   
             </div>
          </div>
          <!-- /.container-fluid-->
@@ -584,6 +600,25 @@
             // chartInstance.update();
             location.reload();
          }
+
+         // Cesium.Ion.defaultAccessToken = 'your_access_token';
+         var viewer = new Cesium.Viewer('cesiumContainer', {
+            animation: false,
+            baseLayerPicker: false,
+            fullscreenButton: false,
+            geocoder: false,
+            homeButton: true,
+            infoBox: false,
+            sceneModePicker: false,
+            selectionIndicator: false,
+            timeline: false,
+            navigationHelpButton: true
+         });
+         viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(127.9783, 37.5665, 1000000.0) 
+        });
+
+        var tileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());         
 
       </script>
    </body>

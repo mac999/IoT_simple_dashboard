@@ -6,9 +6,12 @@ Run [demo web app server](https://port-0-iot-simple-dashboard-rccln2llw1pwt41.se
 </center>
 </br>
 <center>
+  <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen2.JPG" width=1000/>
+</center>
+</br>
+<center>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen.PNG" width=1000/>
 </center>
-
 # Run
 ```
 git clone <this repository>

@@ -9,9 +9,11 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
       <link rel="stylesheet" href="{% static 'style.css' %}">
       <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <!-- <link rel="stylesheet" href="https://potree.org/potree/build/potree/potree.css"> -->
       <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
       <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>   
       <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+      <!-- <script src="https://potree.org/potree/build/potree/potree.js"></script> -->
    </head>
    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
       <!-- Navigation-->
@@ -278,6 +280,20 @@
             </div>               
             <div class="row">
                <div class="col-lg-4">
+                  <!-- Example Pie Chart Card-->
+                  <div class="card mb-3">
+                     <div class="card-header">
+                        <i class="fa fa-pie-chart"></i> BIM Viewer
+                     </div>                
+                     <div class="card-body">
+                        <!-- <aside class="side-menu" id="side-menu-left"></aside>
+                        <div id="loading-overlay" class="loading-overlay hidden">
+                        <h1 id="loading-progress" class="loading-progress"></h1> -->     
+                        <div id="viewer-container" style="width: 100%; height: 350px"></div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-4">
                   <!-- Bar Chart -->
                   <div class="card mb-3">
                      <div class="card-header">
@@ -302,17 +318,19 @@
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4">
-                  <!-- Example Pie Chart Card-->
+               <!-- <div class="col-lg-4">
                   <div class="card mb-3">
                      <div class="card-header">
-                        <i class="fa fa-pie-chart"></i> Sensor Type Pie Chart
-                     </div>
+                        <i class="fa fa-pie-chart"></i> Potree Viewer
+                     </div>                
                      <div class="card-body">
-                        <div id="pieChart" style="width: 100%; height: 350px"></div>
+                        <div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
+                           <div id="potree_render_area">
+                           </div>
+                        </div>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <div class="col-lg-4">
                   <div class="card mb-3">
                      <div class="card-header">
@@ -469,6 +487,9 @@
       <!--script src="{% static 'canvasjs.min.js' %}"></script-->
 
       <script src="{% static 'script.js' %}"></script>
+      <!-- <script type="module" src="{% static 'webifc.js' %}"></script> -->
+      <script src="{% static 'webifc.js' %}"></script>
+
       <script>         
          // -- Bar Chart
          var columnChart = new CanvasJS.Chart("columnChart", {
@@ -548,7 +569,7 @@
          iotChart.render();
          
          // -- Pie Chart
-         var pieChart = new CanvasJS.Chart("pieChart", {
+         /* var pieChart = new CanvasJS.Chart("pieChart", {
                animationEnabled: true,
                exportEnabled: true,
                legend: {
@@ -560,7 +581,7 @@
                   dataPoints: {{ pie_data | safe }}
                }]
             });
-         pieChart.render();
+         pieChart.render(); */ 
 
          // Leaflet map
          var map = L.map('leafletMap').setView([37.5665, 126.9780], 13); // Seoul coordinates
@@ -585,6 +606,47 @@
          var poi3 = L.marker([37.5827, 126.9984], {icon: redIcon}).addTo(map).bindPopup(poi_html);
          var poi4 = L.marker([37.5700, 126.9860], {icon: redIcon}).addTo(map).bindPopup(poi_html);
          var poi5 = L.marker([37.5641, 126.9989], {icon: redIcon}).addTo(map).bindPopup(poi_html);
+         var poi_list = [poi1, poi2, poi3, poi4, poi5];
+         for (var i = 0; i < poi_list.length; i++) {
+            poi_list[i].on('click', async function(e) {
+               var ifc_files = ['test.ifc', 'ac20_haus.ifc', 'road_IFC4x3.ifc', 'table.ifc', 'ac20_lab.ifc']
+               index = poi_list.indexOf(this);
+               index = index % ifc_files.length;
+
+               ifcviewer.axes.setAxes();
+               ifcviewer.grid.setGrid();
+               const ifcUrl = "/static/" + ifc_files[index]; // "/static/test.ifc";
+               await ifcviewer.IFC.loadIfcUrl(ifcUrl);
+
+               var lat = e.latlng.lat;
+               var lng = e.latlng.lng;
+               console.log(lat, lng);
+            });
+         }
+         
+         // Potree viewer
+         /* 
+         window.potree_viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+         potree_viewer.setBackground("skybox");
+         potree_viewer.setEDLEnabled(true);
+         potree_viewer.setFOV(60);
+         potree_viewer.setPointBudget(1_000_000);
+         potree_viewer.loadSettingsFromURL();      
+         potree_viewer.setDescription("");
+         
+         potree_viewer.loadGUI(() => {
+            potree_viewer.setLanguage('en');
+            $("#menu_appearance").next().show();
+            //viewer.toggleSidebar();
+         });
+         
+         Potree.loadPointCloud("/static/pcd_lion/cloud.js", "lion", function(e){
+            viewer.scene.addPointCloud(e.pointcloud);            
+            let material = e.pointcloud.material;
+            material.size = 1;
+            material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+            potree_viewer.fitToScreen();
+         }); */
 
          // event
          document.getElementById('updateButton').addEventListener('click', function() {
@@ -597,11 +659,11 @@
             // view.update(newDataset);
             // var iotChart = document.getElementById('iotChart');
             // var chartInstance = Chart.getChart(iotChart);
-            // chartInstance.update();
+            // chartInstance.update();            
             location.reload();
          }
 
-         // Cesium.Ion.defaultAccessToken = 'your_access_token';
+         Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5MDA1OGJhMi04NTY0LTQ0NDgtOWZkNi02ZWM1YzE1Y2VkODUiLCJpZCI6MjI3NzksInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODIwMzI3MTJ9.le7e8JdjCMK94zUohux5Wu-CWF0ydrrh7vSvxU3ZR4U';
          var viewer = new Cesium.Viewer('cesiumContainer', {
             animation: false,
             baseLayerPicker: false,
@@ -616,9 +678,9 @@
          });
          viewer.camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(127.9783, 37.5665, 1000000.0) 
-        });
+         });
 
-        var tileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());         
+         var tileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());         
 
       </script>
    </body>

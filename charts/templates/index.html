@@ -9,10 +9,10 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
       <link rel="stylesheet" href="{% static 'style.css' %}">
       <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-      <!-- <link rel="stylesheet" href="https://potree.org/potree/build/potree/potree.css"> -->
       <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
       <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>   
       <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+      <!-- <link rel="stylesheet" href="https://potree.org/potree/build/potree/potree.css"> -->
       <!-- <script src="https://potree.org/potree/build/potree/potree.js"></script> -->
    </head>
    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -254,7 +254,6 @@
                    </div>
                </div>
                <div class="col-lg-4">
-                  <!-- Example Pie Chart Card-->
                   <div class="card mb-3">
                      <div class="card-header">
                         <i class="fa fa-pie-chart"></i> IoT Chart
@@ -280,7 +279,6 @@
             </div>               
             <div class="row">
                <div class="col-lg-4">
-                  <!-- Example Pie Chart Card-->
                   <div class="card mb-3">
                      <div class="card-header">
                         <i class="fa fa-pie-chart"></i> BIM Viewer
@@ -371,7 +369,6 @@
                   </div>                  
                </div>
             </div>
-            <!-- Example DataTables Card-->
             <div class="row">
                <div class="col-lg-4">
                   <div class="card mb-3">
@@ -483,15 +480,10 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap4.js"></script>
       <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-      
-      <!--script src="{% static 'canvasjs.min.js' %}"></script-->
-
       <script src="{% static 'script.js' %}"></script>
-      <!-- <script type="module" src="{% static 'webifc.js' %}"></script> -->
       <script src="{% static 'webifc.js' %}"></script>
 
       <script>         
-         // -- Bar Chart
          var columnChart = new CanvasJS.Chart("columnChart", {
                animationEnabled: true,
                exportEnabled: true,
@@ -520,7 +512,6 @@
             });
          columnChart.render();
 
-         setInterval(fetchColumnData, 3000);
          function fetchColumnData() {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/charts?chartType=column', true);
@@ -540,6 +531,17 @@
             };
             xhr.send();
          }
+
+         let lastTime = 0;
+         const interval = 3000;
+         function animationLoop(timestamp) {
+               if (timestamp - lastTime >= interval) {
+                  fetchColumnData();
+                  lastTime = timestamp;
+               }
+               requestAnimationFrame(animationLoop);
+         }
+         requestAnimationFrame(animationLoop);         
 
          var iotChart = new CanvasJS.Chart("iotChart", {
             animationEnabled: true,
@@ -568,21 +570,6 @@
          });
          iotChart.render();
          
-         // -- Pie Chart
-         /* var pieChart = new CanvasJS.Chart("pieChart", {
-               animationEnabled: true,
-               exportEnabled: true,
-               legend: {
-                  verticalAlign: "top"
-               },
-               data: [{
-                  type: "pie",
-                  showInLegend: true,
-                  dataPoints: {{ pie_data | safe }}
-               }]
-            });
-         pieChart.render(); */ 
-
          // Leaflet map
          var map = L.map('leafletMap').setView([37.5665, 126.9780], 13); // Seoul coordinates
          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -679,8 +666,7 @@
             destination: Cesium.Cartesian3.fromDegrees(127.9783, 37.5665, 1000000.0) 
          });
 
-         var tileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());         
-
+         var tileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());   
       </script>
    </body>
 </html>

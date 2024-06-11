@@ -4,10 +4,8 @@ Run [demo web app server](https://port-0-iot-simple-dashboard-rccln2llw1pwt41.se
 <center>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/Animation.gif" width=500/>
 </center>
-<center>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen2.JPG" width=500/><img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen3.JPG" width=500/>
   <img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen4.JPG" width=500/><img src="https://github.com/mac999/IoT_simple_dashboard/blob/main/screen5.JPG" width=500/>
-</center>
 
 # Run
 ```
